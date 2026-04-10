@@ -1,118 +1,92 @@
-# ABB IT-Fahndung Training - Linux Forensik Lab
+# Linux Forensik Lab
 
-**Interaktive Trainingsplattform fur operative forensische Datensicherung**  
-Entwickelt fur das Amt fur Betrugsbekampfung (ABB) - Steuerfahndung.
+**Interaktive Trainingsplattform für operative forensische Datensicherung**
+Entwickelt für das Amt für Betrugsbekämpfung (ABB) – Steuerfahndung.
 
-## Uber das Projekt
+## Über das Projekt
 
-Browserbasierte Single-Page-Application fur die Ausbildung in Linux-basierter Datentragerforensik. Vollstandig offline-fahig, kein Server erforderlich. Integriertes simuliertes Terminal fur praxisnahe Ubungen.
+Browserbasierte Single-Page-Application für die Ausbildung in Linux-basierter Datenträgerforensik. Vollständig offline-fähig, kein Server erforderlich. Integriertes simuliertes Terminal mit Pipe-, Chain- und Redirect-Support für praxisnahe Übungen.
 
 Alle Verfahren orientieren sich an NIST SP 800-86 und ISO/IEC 27037.
 
 ## Features
 
-- **22 Lernkapitel** - Vom forensischen Grundlagenwissen bis zur Zeitlinienanalyse
-- **Simuliertes Terminal** - Vollstandiges Bash-Terminal mit virtuellem Dateisystem, 25+ Befehlen, auto-offnend bei Ubungen
-- **Referenz-Panel** - Seitliche Quick-Reference mit allen Befehlen und Kopier-Buttons
-- **Slide-basierte Navigation** - Pro Abschnitt eigene Slide mit Vor/Zuruck-Navigation
-- **Schritt-fur-Schritt-Ubungen** - Ankuendigungs-Slide, Befehl, erwartete Ausgabe, Erklarungen
-- **Dark Forensik Theme** - Professionelles dunkles Interface im Terminal-Stil
-- **Fortschritts-Tracking** - Kapitel als erledigt markieren (localStorage)
-- **CTF-Challenges** - 5 praktische Challenges mit Losungen
+- **22 Lernkapitel** in 3 Modulen – von Grundlagen bis Zeitlinienanalyse
+- **Simuliertes Terminal** – Pipes (`|`), Chain (`&&`), Redirect (`>`), 30+ Befehle
+- **Inline-Terminals** – Direkt in den Übungen eingebettet
+- **Erwartete Ausgaben** – Jede Übung zeigt was das Terminal ausgeben soll
+- **Entscheidungsfragen** – Interaktive Quizze am Ende jedes Kapitels
+- **Gamification** – Achievements, Fortschritts-Tracking, Kapitel als erledigt markieren
+- **Referenz-Panel** – Seitliche Quick-Reference mit allen Befehlen und Kopier-Buttons
+- **Slide-basierte Navigation** – Pro Abschnitt eigene Slide mit Vor/Zurück
+- **Dark Forensik Theme** – Professionelles dunkles Interface mit Inter + JetBrains Mono
 
-## Kapitel
+## Module
 
-| # | Kapitel | Inhalt |
-|---|---------|--------|
-| 1 | Grundlagen | Devices, Partitionen, Dateisysteme, forensischer Workflow |
-| 2 | Datentrager-Identifikation | lsblk, fdisk, parted, hdparm |
-| 3 | Imaging | dd, dc3dd, dcfldd, E01-Formate |
-| 4 | Hashing & Integritat | SHA-256, MD5, Verifikation |
-| 5 | Mounten & Analyse | Read-only Mounts, Loop-Devices, Offset-Berechnung |
-| 6 | Hex-Analyse | xxd, hexdump, binare Analyse |
-| 7 | Strings | strings, grep, Mustererkennung |
-| 8 | Dateisysteme | ext*, NTFS, FAT32 Internals |
-| 9 | Wiping | Sicheres Loschen, dd destroy |
-| 10 | Artefaktanalyse | Logs, Metadaten, Timeline |
-| 11 | Case Study | Interaktiver 12-Schritt-Workflow |
-| 12 | Image-Formate | RAW, E01, AFF Vergleich |
-| 13 | Dateivergleich | diff, cmp, Hash-Vergleich |
-| 14 | Protokollierung | script, Dokumentation, Chain of Custody |
-| 15 | Write-Blocker | Hardware & Software Write-Blocking |
-| 16 | Sicheres Loschen | wipe, shred, DoD-Standard |
-| 17 | Best Practices | Forensische Grundsatze, Fallstricke |
-| 18 | Tools | Autopsy, Sleuth Kit, dd, xxd |
-| 19 | Datenrettung | testdisk, photorec |
-| 20 | Memory-Forensik | RAM-Dump Analyse |
-| 21 | Netzwerkforensik | PCAP, Netflow, Log-Analyse |
-| 22 | Zeitlinienanalyse | Timeline-Erstellung und Analyse |
+| Modul | Kapitel | Inhalt |
+|-------|---------|--------|
+| **01 – Grundlagen** | 1–11 | Devices, Partitionen, Imaging, Hashing, Mounten, Hex-Analyse, Strings, Dateisysteme, Wiping, Artefaktanalyse, Case Study |
+| **02 – Vertiefung** | 12–18 | Image-Formate, Vergleiche, Protokollierung, Write-Blocker, Sicheres Löschen, Best Practices, Tools |
+| **03 – Analyse** | 19–22 | Datenrettung, Memory-Forensik, Netzwerkforensik, Zeitlinienanalyse |
 
-## Simuliertes Terminal
+## Terminal-Simulation
 
 Das integrierte Terminal simuliert eine echte Bash-Umgebung:
 
-- **25+ Befehle**: ls, cd, pwd, mkdir, touch, cat, tree, dd, sha256sum, md5sum, mount, xxd, strings, grep, find, script, uname, file, stat, history, clear, help
+- **30+ Befehle**: ls, cd, pwd, mkdir, cat, tree, dd, dc3dd, lsblk, fdisk, parted, xxd, strings, grep, sha256sum, md5sum, mount, umount, blkid, hdparm, fls, mmls, istat, icat, nvme, blockdev, script, find, stat, file, sort, diff, cmp, uname, whoami, history, date, echo, help, sync
+- **Pipe-Support**: `strings image.img | grep -i "password"`
+- **Chain-Support**: `mkdir -p /mnt/x && mount -o ro image.img /mnt/x`
+- **Redirect-Support**: `sha256sum /dev/sdb > hashes/original.sha256`
 - **Virtuelles Dateisystem**: Verzeichnisse, Dateien, realistische Baumstruktur
 - **Brace-Expansion**: `mkdir -p case-001/{images,mounts,hashes}`
-- **Protokollierung**: `script` startet Session-Recording, `exit` beendet es
-- **Auto-Offnen**: Terminal offnet sich automatisch bei Ubungs-Slides
-- **Block-Cursor**: Realistischer Terminal-Look mit blinkendem Cursor
+- **Session-Recording**: `script` startet Protokollierung, `exit` beendet sie
 
 ## Projektstruktur
 
 ```
 forensik-lab/
-  index.html                    # SPA (77 Zeilen)
+  index.html                    # SPA Hauptanwendung
   assets/
     css/
-      style.css                 # Dark Forensik Theme (~2470 Zeilen)
+      style.css                 # Haupt-CSS (Dark Theme, Layout, alle Komponenten)
       gamification.css          # Gamification Styles
     js/
-      app.js                    # Router, Slide-Parser, Navigation (~690 Zeilen)
-      chapters.js               # 22 Kapitel (~2210 Zeilen)
-      terminal.js               # Simuliertes Terminal + virtuelles FS (~1130 Zeilen)
-      reference.js              # Referenz-Panel (~640 Zeilen)
-      labs.js                   # Labs
-      labs-interactive.js       # Interaktive Labs
+      app.js                    # Router, Slide-Parser, Navigation
+      chapters.js               # 22 Kapitel + Willkommensseite
+      terminal.js               # Terminal-Simulation + virtuelles FS
+      reference.js              # Referenz-Panel
+      app.js                    # Hauptanwendung (Routing, Slides)
+      gamification.js           # Achievement-System
+      achievements.js           # Achievements
+      progress.js               # Fortschritts-Tracking
+      labs.js / labs-interactive.js  # Labor-Übungen
       challenges.js             # CTF-Challenges
       missions.js               # Missionen
-      gamification.js           # Gamification
-      ui-improvements.js        # UI-Erweiterungen
-      progress.js               # Fortschritts-Tracking
-      certification.js          # Zertifizierung
       cheatsheet.js             # Cheatsheet
-  datasets/                     # Forensische Datensatze
-    auth.log                    # SSH Brute Force Logs
-    apache_access.log           # Webserver-Logs
-    syslog                      # Systemlogs
-    usb_case01.img              # 1MB USB-Image (FAT32)
-    mbr_sample.bin              # 512B Master Boot Record
-    memory_dump_sample.raw      # 64KB RAM-Dump
-    original.txt                # Original-Datei
-    manipulated.txt             # Manipulierte Datei
-    hashes/                     # SHA-256 Prufsummen
+      certification.js          # Zertifizierung
+      ui-improvements.js        # UI-Erweiterungen
+  datasets/                     # Forensische Datensätze
+    auth.log / apache_access.log / syslog
+    usb_case01.img / mbr_sample.bin / memory_dump_sample.raw
+    original.txt / manipulated.txt / hashes/
 ```
-
-** Gesamt: ~10.770 Zeilen Code**
 
 ## Schnellstart
 
 ```bash
 git clone https://github.com/hnslng/linux-forensik-lab.git
-cd linux-forensik-lab
-firefox forensik-lab/index.html
+cd linux-forensik-lab/forensik-lab
+# index.html im Browser öffnen – kein Server nötig
 ```
-
-Kein Server notig - einfach `index.html` im Browser offnen.
 
 ## Technologie
 
 - Vanilla HTML5, CSS3, JavaScript (ES6+)
 - Single Page Application mit Hash-Routing
-- Slide-Parser: Splittet HTML nach `<h2 class="section-title">` in eigene Slides
+- Google Fonts: Inter (UI) + JetBrains Mono (Code/Terminal)
 - Custom CSS Grid/Flexbox Layout
-- localStorage fur Fortschritt und Einstellungen
-- Keine externen Abhangigkeiten, komplett offline
+- localStorage für Fortschritt und Einstellungen
+- Keine externen Abhängigkeiten, komplett offline
 
 ## Lizenz
 
@@ -120,4 +94,4 @@ MIT License
 
 ## Kontakt
 
-**Hannes Lang** - ABB IT-Fahndung Training
+**Hannes Lang** – ABB IT-Fahndung Training
